@@ -226,9 +226,10 @@ ofstream fileKoeficient("inputcoef.txt");
 
 					// отримання його номера 
 					bool alredyCheck = false;
-					curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
+					
+					int curentNumberTemp = curentPathPoint.uniqueVectoNumderNeb[k];
 					for (int l = 0; l < chekedPointNumber.size(); l++) {
-						if (curentNumber == chekedPointNumber[l]) {
+						if (curentNumberTemp == chekedPointNumber[l]) {
 							alredyCheck = true;
 							numberChekedPoint++;
 
@@ -243,6 +244,7 @@ ofstream fileKoeficient("inputcoef.txt");
 						}
 					}
 						//додавння дистанції відрізка до загалної
+					curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
 					routeDistans += curentPathPoint.distansToPoint[k];
 						curentPathPoint = vectoOfPathPoint[curentNumber];
 						tempResaltPath.push_back(curentNumber);
@@ -336,9 +338,9 @@ ofstream fileKoeficient("inputcoef.txt");
 					// отримання його номера 
 					
 					bool alredyCheck = false; // змына перрки елемента
-					curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
-					for (int l = 1; l < chekedPointNumber.size(); l++) {
-						if (curentNumber == chekedPointNumber[l]) {
+					int curentNumberTemp = curentPathPoint.uniqueVectoNumderNeb[k];
+					for (int l = 0; l < chekedPointNumber.size(); l++) {
+						if (curentNumberTemp == chekedPointNumber[l]) {
 							alredyCheck = true;
 							numberChekedPoint++;
 
@@ -354,6 +356,7 @@ ofstream fileKoeficient("inputcoef.txt");
 						}
 					}
 					if (alredyCheck == false) {
+						curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
 						//додавння дистанції відрізка до загалної
 						routeDistans += curentPathPoint.distansToPoint[k];
 						curentPathPoint = vectoOfPathPoint[curentNumber];
