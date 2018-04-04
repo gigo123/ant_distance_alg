@@ -57,7 +57,7 @@ vector<int> chengeKoeficient(vector<int> inKoeficient, vector<int> inPersent) {
 	int tempKoeficent = 0;
 	//koefPersent = 1000 / inKoeficient.size();
 	for (int i = 0; i < inPersent.size(); i++) {
-		koefPersent = 1 + inPersent[i] / 500;
+		koefPersent = 1 + inPersent[i] / 10;
 		vectorOfPersent.push_back(koefPersent);
 		persentSum = persentSum + koefPersent;
 	}
@@ -129,26 +129,26 @@ ofstream fileKoeficient("inputcoef.txt");
 				if (numbeInTrio == 0) {
 					tempPathPoint.neirPoint.push_back(vertexVector[j + 1]);
 					tempPathPoint.neirPoint.push_back(vertexVector[j + 2]);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x- vertexVector[j + 1].x,2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 1].y, 2)+ pow(tempPathPoint.PathPoint.z - vertexVector[j + 1].z, 2));
-					tempPathPoint.distansToPoint.push_back(distans);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j + 2].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 2].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j + 2].z, 2));
-					tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x- vertexVector[j + 1].x,2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 1].y, 2)+ pow(tempPathPoint.PathPoint.z - vertexVector[j + 1].z, 2));
+					////tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j + 2].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 2].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j + 2].z, 2));
+					//tempPathPoint.distansToPoint.push_back(distans);
 				}
 				if (numbeInTrio == 1) {
 					tempPathPoint.neirPoint.push_back(vertexVector[j - 1]);				
 					tempPathPoint.neirPoint.push_back(vertexVector[j + 1]);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j + 1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j + 1].z, 2));
-					tempPathPoint.distansToPoint.push_back(distans);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j -1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j -1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j -1].z, 2));
-					tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j + 1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j + 1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j + 1].z, 2));
+					//tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j -1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j -1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j -1].z, 2));
+					//tempPathPoint.distansToPoint.push_back(distans);
 				}
 				if (numbeInTrio == 2) {
 					tempPathPoint.neirPoint.push_back(vertexVector[j - 2]);				
 					tempPathPoint.neirPoint.push_back(vertexVector[j - 1]);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j - 1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j - 1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j - 1].z, 2));;
-					tempPathPoint.distansToPoint.push_back(distans);
-					distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j - 2].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j - 2].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j - 2].z, 2));
-					tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j - 1].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j - 1].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j - 1].z, 2));;
+					//tempPathPoint.distansToPoint.push_back(distans);
+					//distans = sqrt(pow(tempPathPoint.PathPoint.x - vertexVector[j - 2].x, 2) + pow(tempPathPoint.PathPoint.y - vertexVector[j - 2].y, 2) + pow(tempPathPoint.PathPoint.z - vertexVector[j - 2].z, 2));
+					//tempPathPoint.distansToPoint.push_back(distans);
 				}
 
 			}
@@ -157,6 +157,13 @@ ofstream fileKoeficient("inputcoef.txt");
 		sort(tempPathPoint.neirPoint.begin(), tempPathPoint.neirPoint.end());
 		//и удаляем дубликаты
 		tempPathPoint.neirPoint.resize(unique(tempPathPoint.neirPoint.begin(), tempPathPoint.neirPoint.end()) - tempPathPoint.neirPoint.begin());
+		//tempPathPoint.distansToPoint.resize(unique(tempPathPoint.distansToPoint.begin(), tempPathPoint.distansToPoint.end()) - tempPathPoint.distansToPoint.begin());
+		double distans;
+		for (int e = 0; e < tempPathPoint.neirPoint.size();e++)
+		{
+			distans = sqrt(pow(tempPathPoint.PathPoint.x - tempPathPoint.neirPoint[e].x, 2) + pow(tempPathPoint.PathPoint.y - tempPathPoint.neirPoint[e].y, 2) + pow(tempPathPoint.PathPoint.z - tempPathPoint.neirPoint[e].z, 2));
+			tempPathPoint.distansToPoint.push_back(distans);
+		}
 		//
 		vector<VertexPoint>::iterator vertexIterator;
 		for (int k = 0; k < tempPathPoint.neirPoint.size(); k++)
@@ -201,23 +208,23 @@ ofstream fileKoeficient("inputcoef.txt");
 	
 	for (int i = 0; i < 10; i++) {
 		int curentNumber = startPoint;
-	vector<int> chekedPointNumber;
-	chekedPointNumber.push_back(curentNumber);
-	int nuberPointRoute = 0;
-	vector<int> tempResaltPath;
-	tempResaltPath.push_back(curentNumber);
-	//
-	pathVertexPoint curentPathPoint, nextPathPoint;
-	curentPathPoint = vectoOfPathPoint[startPoint];
+		vector<int> chekedPointNumber;
+		chekedPointNumber.push_back(curentNumber);
+		int nuberPointRoute = 0;
+		vector<int> tempResaltPath;
+		tempResaltPath.push_back(curentNumber);
+		//
+		pathVertexPoint curentPathPoint, nextPathPoint;
+		curentPathPoint = vectoOfPathPoint[startPoint];
 
-	//srand(time(0));
-	int routeDistans = 0;
+		//srand(time(0));
+		int routeDistans = 0;
 		while (curentNumber != endPoint) {
 			//srand(time(0));
-			int randomkoeficient = rand() % 1000 + 1;
+			int randomkoeficient = rand() % 1000 ;
 
 			//cout << randomkoeficient << " \t";
-		
+
 			int numberChekedPoint = 0; // кылькыть первырених елементыв 
 			for (int k = 0; k < curentPathPoint.neirPoint.size(); k++) {
 				//якщо останны еоофіціент менше 1000;
@@ -226,7 +233,7 @@ ofstream fileKoeficient("inputcoef.txt");
 
 					// отримання його номера 
 					bool alredyCheck = false;
-					
+
 					int curentNumberTemp = curentPathPoint.uniqueVectoNumderNeb[k];
 					for (int l = 0; l < chekedPointNumber.size(); l++) {
 						if (curentNumberTemp == chekedPointNumber[l]) {
@@ -243,9 +250,10 @@ ofstream fileKoeficient("inputcoef.txt");
 							break;
 						}
 					}
+					if (alredyCheck == false) {
 						//додавння дистанції відрізка до загалної
-					curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
-					routeDistans += curentPathPoint.distansToPoint[k];
+						curentNumber = curentPathPoint.uniqueVectoNumderNeb[k];
+						routeDistans += curentPathPoint.distansToPoint[k];
 						curentPathPoint = vectoOfPathPoint[curentNumber];
 						tempResaltPath.push_back(curentNumber);
 						fileOutPath << curentNumber << "\t";//
@@ -255,22 +263,53 @@ ofstream fileKoeficient("inputcoef.txt");
 						numberChekedPoint = 0;
 						nuberPointRoute++;// кількість точок маршруту.
 						break;
+					}
 				}
 
 			}
-			
+
 		}
-		fileOutPath << "\n"<< nuberPointRoute<<"\t"<< routeDistans<<"\n";
+		fileOutPath << "\n" << nuberPointRoute << "\t" << routeDistans << "\n";
 		//cout << curentNumber << "\n ";
+		
+		//вставка в масив
+		vector<vector<int>>::iterator itp;
+		vector<int>::iterator itd;
+		itd = distanceVector.begin();
+		itp = resaltPOintPath.begin();
+		bool last = true;
+		//вставка знайденого шляшу в масив відповідей
+		// якщо перший елемнрт то просто вставляэмо 
+		if (distanceVector.size() == 0) {
+			distanceVector.push_back(routeDistans);
+		
+			resaltPOintPath.push_back(tempResaltPath);
+		}
+		else {
+		
+		for (int e = 0; e < distanceVector.size(); e++) {
+			if (routeDistans < distanceVector[e]) {
+				distanceVector.insert(itd, routeDistans);
+				resaltPOintPath.insert(itp, tempResaltPath);
+				last = false;
+				break;
+			}
+			itd = distanceVector.begin() + e + 1;
+			itp = resaltPOintPath.begin() + e + 1;
+		}
+		if (last == true) {
+			distanceVector.push_back(routeDistans);
+			resaltPOintPath.push_back(tempResaltPath);
+		}
+
+	}
 		cout << routeDistans << "\n";
-		distanceVector.push_back(routeDistans);
-		resaltPOintPath.push_back(tempResaltPath);
 	}
 
 	// кінець першої обробки
 	getchar();
 	// сортуємо масив по дистанції
-	sort(distanceVector.begin(), distanceVector.end()); // сортування масиву результів.
+	//sort(distanceVector.begin(), distanceVector.end()); // сортування масиву результів.
 	// розрахунок коефіціенті мурах
 	int bestPath = distanceVector[0];   // змінна найкоротшої дистанції
 	vector<bool>  pointKoefChanged;
@@ -282,12 +321,14 @@ ofstream fileKoeficient("inputcoef.txt");
 				int cureninPoint = resaltPOintPath[i][j];
 				for (int k = 0; k < vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb.size(); k++) {
 					if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[k] == resaltPOintPath[i][j + 1]) { // для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-						if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
+						if (vectoOfPathPoint[cureninPoint].antKoeficient[k] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
+					/*	// тарий варантт if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
 							vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
 						}
 						else {
 							vectoOfPathPoint[cureninPoint].antKoeficient[k] = (vectoOfPathPoint[cureninPoint].antKoeficient[k] + investpatchKoef) / 2;
 						}
+						*/
 						fileKoeficient << vectoOfPathPoint[cureninPoint].antKoeficient[k] << " ";
 						pointKoefChanged[cureninPoint] = true;
 
@@ -309,7 +350,7 @@ ofstream fileKoeficient("inputcoef.txt");
 	for (int i = 0; i < 10; i++) {
 		//
 		//cout << i << " \t";
-	noway:
+
 		cout << i << " \t";
 		int curentNumber = startPoint;
 		vector<int> chekedPointNumber;
@@ -367,6 +408,7 @@ ofstream fileKoeficient("inputcoef.txt");
 						numberChekedPoint = 0;
 						nuberPointRoute++;// кількість точок маршруту.
 						//continue;
+						break;
 					}
 				}
 
@@ -382,16 +424,22 @@ ofstream fileKoeficient("inputcoef.txt");
 		itd = distanceVector.begin();
 		itp = resaltPOintPath.begin();
 		bool newbestPath = false;
+		bool last = true;
 		//вставка знайденого шляшу в масив відповідей
 		for (int e = 0; e < distanceVector.size(); e++) {
 			if (routeDistans < distanceVector[e]) {
 				distanceVector.insert(itd, routeDistans);
 				resaltPOintPath.insert(itp, tempResaltPath);
 				if (e == 0)   newbestPath = true;
+				last = false;
 				break;
 			}
 			itd = distanceVector.begin() + e + 1;
 			itp = resaltPOintPath.begin()+ e + 1 ;
+		}
+		if (last == true) {
+			distanceVector.push_back(routeDistans);
+			resaltPOintPath.push_back(tempResaltPath);
 		}
 		// якщо шлях доший іфд найкогротшого 
 		if (newbestPath == false) {
@@ -401,12 +449,13 @@ ofstream fileKoeficient("inputcoef.txt");
 				int cureninPoint = tempResaltPath[j];
 				for (int k = 0; k < vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb.size(); k++) {
 					if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[k] == tempResaltPath[j + 1]) { // для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-					if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
-						vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
-					}
-					else {
-						vectoOfPathPoint[cureninPoint].antKoeficient[k] = (vectoOfPathPoint[cureninPoint].antKoeficient[k] + investpatchKoef) / 2;
-					}
+						if (vectoOfPathPoint[cureninPoint].antKoeficient[k] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
+					//if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
+				//		vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
+				//	}
+				//	else {
+				//		vectoOfPathPoint[cureninPoint].antKoeficient[k] = (vectoOfPathPoint[cureninPoint].antKoeficient[k] + investpatchKoef) / 2;
+				//	}
 						
 						pointKoefChanged[cureninPoint] = true;
 						fileKoeficient << vectoOfPathPoint[cureninPoint].antKoeficient[k] << " ";
@@ -434,12 +483,13 @@ ofstream fileKoeficient("inputcoef.txt");
 					
 						if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[k] == resaltPOintPath[y][j + 1])
 					{ // для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-						if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
-							vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
-						}
-						else {
-							vectoOfPathPoint[cureninPoint].antKoeficient[k] = (vectoOfPathPoint[cureninPoint].antKoeficient[k] + investpatchKoef) / 2;
-						}
+							if (vectoOfPathPoint[cureninPoint].antKoeficient[k] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
+						//if (vectoOfPathPoint[cureninPoint].antKoeficient[k] == 0) {
+						//	vectoOfPathPoint[cureninPoint].antKoeficient[k] = investpatchKoef;
+					//	}
+					//	else {
+					//		vectoOfPathPoint[cureninPoint].antKoeficient[k] = (vectoOfPathPoint[cureninPoint].antKoeficient[k] + investpatchKoef) / 2;
+					//	}
 							pointKoefChanged[cureninPoint] = true;
 							fileKoeficient << vectoOfPathPoint[cureninPoint].antKoeficient[k] << " ";
 
