@@ -41,7 +41,8 @@ struct pathVertexPoint
 	VertexPoint PathPoint; // точка в моделі
 	vector<double> distansToPoint; // список дистанцій до сусідніх точок
 	vector<int> uniqueVectoNumderNeb; // список номерів сусідніх точок в загалному списку;
-	float antKoeficient; // коефіціент алгоритму
+	float antKoeficient =1 ; // коефіціент алгоритму
+	vector<float> antKoeficientV;
 
 };
 
@@ -122,7 +123,7 @@ int main()
 			int postion = distance(vertexVectorUnique.begin(), vertexIterator);
 			tempPathPoint.uniqueVectoNumderNeb.push_back(postion);
 			// запис пустих м-коефыентыв
-			tempPathPoint.antKoeficient = 0;
+			tempPathPoint.antKoeficientV.push_back(1);
 		}
 		vectoOfPathPoint.push_back(tempPathPoint);
 	}
@@ -263,13 +264,21 @@ int main()
 		resaltPOintPath.erase(resaltPOintPath.begin() + resaltPOintPath.size()/2, resaltPOintPath.end());
 		for (int i = 0; i < resaltPOintPath.size(); i++) {
 			float investpatchKoef;
-			if (i == 0) investpatchKoef = 6000;
-			else investpatchKoef = bestPath / distanceVector[i] *100; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
-			for (int j = 0; j < resaltPOintPath[i].size(); j++) {
+			if (i == 0) investpatchKoef = 4;
+			else investpatchKoef = bestPath / distanceVector[i] *2; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
+			for (int j = 0; j < resaltPOintPath[i].size()-1; j++) {
 				int cureninPoint = resaltPOintPath[i][j];
+				int nextPoint = resaltPOintPath[i][j+1];
 				// для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-				if (vectoOfPathPoint[cureninPoint].antKoeficient < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient = investpatchKoef;
-				pointKoefChanged[cureninPoint] = true;
+				for (int m = 0; m < vectoOfPathPoint[cureninPoint].numberNeirPoint; m++) {
+
+
+					if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[m] == vectoOfPathPoint[nextPoint].uniqueVectoNumber) {
+
+					if (vectoOfPathPoint[cureninPoint].antKoeficientV[m] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficientV[m] = investpatchKoef;
+				}
+					//pointKoefChanged[cureninPoint] = true;
+				}
 			}
 		}
 		
@@ -277,9 +286,9 @@ int main()
 		//пошук шляху з новими коефіціентами 
 		int numberIterationAfterBestP = 0;
 		//for (int i = 0; i < 10; i++) {
-		while (numberIterationAfterBestP < firstIter*3) {
+		while (numberIterationAfterBestP < firstIter * 6) {
 			//
-			
+
 			int curentNumber = startPoint;
 			vector<int> chekedPointNumber;
 			chekedPointNumber.push_back(curentNumber);
@@ -296,22 +305,23 @@ int main()
 			bool toLongDistance = false;
 			int numberChekedPoint = 0;// кылькыть первырених елементыв
 			while (curentNumber != endPoint) {
-			
 
+				int bouskoef = 0;
 				int randomkoeficient = rand() % 1000 + 1;
 				//randomkoeficient += vectoOfPathPoint[curentPathPoint.uniqueVectoNumderNeb[curentPathPoint.numberNeirPoint - 1]].antKoeficient; //додавання коефыыента сотанньої точки 
 				float randomandK = 0;
 				for (int v = 0; v < curentPathPoint.numberNeirPoint; v++) {
 					int numberOfNeir = curentPathPoint.uniqueVectoNumderNeb[v];
-					randomandK = randomandK + 1 + vectoOfPathPoint[numberOfNeir].antKoeficient/100;
+					randomandK = randomandK + curentPathPoint.antKoeficientV[v];
 				}
 				float fullkoefe = 1000 / randomandK;
 				for (int k = 0; k < curentPathPoint.numberNeirPoint; k++) {
-					
-					int numberOfNeir = curentPathPoint.uniqueVectoNumderNeb[k];
-					int randomKoeficientVertex = fullkoefe*(k + 1+ vectoOfPathPoint[numberOfNeir].antKoeficient / 100);
-					
-					if (randomKoeficientVertex >= randomkoeficient  || k == curentPathPoint.numberNeirPoint - 1) {
+
+					//int numberOfNeir = curentPathPoint.uniqueVectoNumderNeb[k];
+					int randomKoeficientVertex = fullkoefe*(bouskoef + curentPathPoint.antKoeficientV[k]);
+					bouskoef = bouskoef + curentPathPoint.antKoeficientV[k];
+
+					if (randomKoeficientVertex >= randomkoeficient || k == curentPathPoint.numberNeirPoint - 1) {
 
 						// отримання його номера 
 
@@ -325,7 +335,7 @@ int main()
 								if (numberChekedPoint >= curentPathPoint.numberNeirPoint) {
 									curentNumber = endPoint;
 									k = curentPathPoint.numberNeirPoint;
-								//	cout   << " no way" << "\n";///
+									//	cout   << " no way" << "\n";///
 									toLongDistance = true;
 								}
 								break;
@@ -338,12 +348,12 @@ int main()
 							if (routeDistans > bestPath * 2) {
 								curentNumber = endPoint;
 								k = curentPathPoint.numberNeirPoint;
-							//	cout  << " to long" << "\n";//
+								//	cout  << " to long" << "\n";//
 								toLongDistance = true;
 							}
 							curentPathPoint = vectoOfPathPoint[curentNumber];
 							tempResaltPath.push_back(curentNumber);
-						//	cout << curentNumber << " ";
+							//	cout << curentNumber << " ";
 							chekedPointNumber.push_back(curentNumber);
 							numberChekedPoint = 0;
 							nuberPointRoute++;// кількість точок маршруту.
@@ -383,36 +393,61 @@ int main()
 					resaltPOintPath.push_back(tempResaltPath);
 				}
 				// якщо шлях доший іфд найкогротшого 
-				if (newbestPath == false) {		
-					float investpatchKoef = bestPath / routeDistans * 100; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
-					for (int j = 0; j < tempResaltPath.size(); j++) {
+				if (newbestPath == false) {
+					float investpatchKoef = bestPath / routeDistans * 2; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
+					for (int j = 0; j < tempResaltPath.size() - 1; j++) {
 						int cureninPoint = tempResaltPath[j];
+						//	// для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
+	//				if (vectoOfPathPoint[cureninPoint].antKoeficient < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient = investpatchKoef;			
+
+
+
+
+
+						int nextPoint = tempResaltPath[j + 1];
 						// для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-						if (vectoOfPathPoint[cureninPoint].antKoeficient < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient = investpatchKoef;			
-						
+						for (int m = 0; m < vectoOfPathPoint[cureninPoint].numberNeirPoint; m++) {
+
+
+							if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[m] == vectoOfPathPoint[nextPoint].uniqueVectoNumber) {
+
+								if (vectoOfPathPoint[cureninPoint].antKoeficientV[m] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficientV[m] = investpatchKoef;
+							}
+						}
 					}
 				}
 				// якщо шлях найкоротший
 				else {
+
+					distanceVector.erase(distanceVector.begin() + distanceVector.size() / 2, distanceVector.end());
+					resaltPOintPath.erase(resaltPOintPath.begin() + resaltPOintPath.size() / 2, resaltPOintPath.end());
 					numberIterationAfterBestP = 0;
 					bestPath = distanceVector[0];
 					// обнулення всіх коефіціентів
 					for (int h = 0; h < vectoOfPathPoint.size(); h++) {
 						for (int q = 0; q < vectoOfPathPoint[h].uniqueVectoNumderNeb.size(); q++) {
-							vectoOfPathPoint[q].antKoeficient = 0;
+
+							vectoOfPathPoint[h].antKoeficientV[q] = 1;
 						}
 					}
-					for (int y = 0; y < distanceVector.size(); y++)
+					for (int y = 0; y < resaltPOintPath.size(); y++)
 					{
 						float investpatchKoef;
-						if (i == 0) investpatchKoef = 600000;
-						else investpatchKoef = bestPath / distanceVector[y] * 100; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
-							for (int j = 0; j < resaltPOintPath[y].size(); j++) {
-								int cureninPoint = resaltPOintPath[y][j];
-								// для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
-								if (vectoOfPathPoint[cureninPoint].antKoeficient < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficient = investpatchKoef;
+						if (y == 0) investpatchKoef = 5;
+						else investpatchKoef = bestPath / distanceVector[y] * 2; // для кожного шляху розраховуемо коефіціен - йго відношеннядо найкоротшого 
+						for (int j = 0; j < resaltPOintPath[y].size() - 1; j++) {
+							int cureninPoint = resaltPOintPath[y][j];
+							int nextPoint = resaltPOintPath[y][j + 1];
+							// для кожної точки вибраного маршруту розраховуємо коєфіціент мурахи
+							for (int m = 0; m < vectoOfPathPoint[cureninPoint].numberNeirPoint; m++) {
+
+
+								if (vectoOfPathPoint[cureninPoint].uniqueVectoNumderNeb[m] == vectoOfPathPoint[nextPoint].uniqueVectoNumber) {
+
+									if (vectoOfPathPoint[cureninPoint].antKoeficientV[m] < investpatchKoef)   vectoOfPathPoint[cureninPoint].antKoeficientV[m] = investpatchKoef;
+								}
+							}
 						}
-					
 					}
 				}
 			}
